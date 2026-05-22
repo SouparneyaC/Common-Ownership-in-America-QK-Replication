@@ -1,0 +1,35 @@
+# ── Large data files — too big for GitHub ──────────────────────────────────
+# Run src/pull_data.py to regenerate these locally.
+data/raw/
+data/processed/holdings_*.csv
+data/processed/holdings.db
+data/processed/shares_outstanding.db
+data/processed/sic_codes.db
+data/processed/sp500_members.db
+
+# Pre-XML scraped corpus (2.2 GB) — stored separately, see data/README.md
+scrape_parsed.csv
+
+# ── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+
+# ── Jupyter ──────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*_executed.ipynb
+*_fixed.ipynb
+*_clean.ipynb
+
+# ── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── API keys — never commit these ────────────────────────────────────────────
+.env
+*.env
+secrets.py

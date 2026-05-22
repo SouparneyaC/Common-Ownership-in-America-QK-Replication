@@ -1,0 +1,67 @@
+cik,parent_id,parent_name,notes
+913414,BLACKROCK,BlackRock Inc.,BlackRock Institutional Trust Company N.A.
+1006249,BLACKROCK,BlackRock Inc.,BlackRock Fund Advisors
+1003283,BLACKROCK,BlackRock Inc.,BlackRock Group LTD
+1086364,BLACKROCK,BlackRock Inc.,BlackRock Advisors LLC
+1305227,BLACKROCK,BlackRock Inc.,BlackRock Investment Management LLC
+1085635,BLACKROCK,BlackRock Inc.,BlackRock Japan Co. Ltd
+1364742,BLACKROCK,BlackRock Inc.,"BlackRock Inc. (main, 2017+)"
+2012383,BLACKROCK,BlackRock Inc.,BlackRock Inc. (2024+ CIK)
+1422848,CAPITAL_GROUP,Capital Group,Capital Research Global Investors
+1422849,CAPITAL_GROUP,Capital Group,Capital World Investors
+1562230,CAPITAL_GROUP,Capital Group,Capital International Investors
+895213,CAPITAL_GROUP,Capital Group,Capital International Inc. (legacy)
+1065349,CAPITAL_GROUP,Capital Group,Capital International SARL (Europe)
+1065350,CAPITAL_GROUP,Capital Group,Capital International Ltd (UK)
+102909,VANGUARD,Vanguard Group Inc.,Vanguard Group Inc. (main)
+1767306,VANGUARD,Vanguard Group Inc.,Vanguard Personalized Indexing Management
+1730578,VANGUARD,Vanguard Group Inc.,Vanguard Capital Wealth Advisors
+80255,T_ROWE_PRICE,T. Rowe Price Associates,Price T Rowe Associates Inc /MD/ (main)
+1897612,T_ROWE_PRICE,T. Rowe Price Associates,T. Rowe Price Investment Management Inc.
+73124,NORTHERN_TRUST,Northern Trust Corp,Northern Trust Corp (main)
+1065441,NORTHERN_TRUST,Northern Trust Corp,Northern Trust Co of Connecticut
+914208,INVESCO,Invesco Ltd.,"Invesco Ltd. (NYSE-listed, main)"
+1990080,INVESCO,Invesco Ltd.,INVESCO LLC (small entity)
+1610520,UBS,UBS Group AG,UBS Group AG (Zurich parent)
+861177,UBS,UBS Group AG,UBS Asset Management Americas
+1114446,UBS,UBS Group AG,UBS AG (Swiss bank)
+1132716,UBS,UBS Group AG,UBS OConnor LLC (hedge fund arm)
+1521019,NUVEEN,Nuveen (TIAA),"Nuveen Asset Management LLC (main, 6.6B)"
+1871926,NUVEEN,Nuveen (TIAA),Nuveen LLC (1.3B)
+1311016,NUVEEN,Nuveen (TIAA),Nuveen Fund Advisors LLC (tiny)
+887793,TIAA,TIAA,TIAA CREF Investment Management LLC (main)
+1091559,TIAA,TIAA,TIAA CREF Trust Co FSB/MO
+884546,CHARLES_SCHWAB,Charles Schwab,"Charles Schwab Investment Management (main, 9B)"
+1501902,CHARLES_SCHWAB,Charles Schwab,Charles Schwab Investment Advisory Inc.
+1789219,CHARLES_SCHWAB,Charles Schwab,Charles Schwab Trust Co
+1084208,RAYMOND_JAMES,Raymond James Financial,"Raymond James & Associates (main, 2.1B)"
+1462284,RAYMOND_JAMES,Raymond James Financial,Raymond James Financial Services Advisors
+720005,RAYMOND_JAMES,Raymond James Financial,Raymond James Financial Inc
+1088950,RAYMOND_JAMES,Raymond James Financial,Raymond James Trust N.A.
+1927067,RAYMOND_JAMES,Raymond James Financial,Raymond James Trust Co. of NH
+1166588,BNP_PARIBAS,BNP Paribas,BNP Paribas Arbitrage / Financial Markets
+1520354,BNP_PARIBAS,BNP Paribas,BNP Paribas Asset Management / Inv Partners
+872786,BNP_PARIBAS,BNP Paribas,"BNP Paribas (bank entity, tiny)"
+1446194,SUSQUEHANNA,Susquehanna International,"Susquehanna International Group LLP (main, 3.7B)"
+1765924,SUSQUEHANNA,Susquehanna International,Susquehanna International Group Ltd.
+1765923,SUSQUEHANNA,Susquehanna International,Susquehanna International Securities Ltd.
+1434819,APG,APG Asset Management,"APG Asset Management N.V. (main, 3.2B)"
+1323255,APG,APG Asset Management,APG Asset Management US Inc.
+1475365,SUMITOMO_MITSUI,Sumitomo Mitsui Trust,Sumitomo Mitsui Trust Holdings / Group Inc.
+1411530,SUMITOMO_MITSUI,Sumitomo Mitsui Trust,Sumitomo Mitsui DS Asset Management Co.
+1274981,NATIXIS,Natixis,"Natixis (French bank parent, 1.0B)"
+1018331,NATIXIS,Natixis,"Natixis Advisors LLC/LP (US, 0.6B)"
+1166767,NATIXIS,Natixis,Natixis Investment Managers International
+946431,SWEDBANK,Swedbank AB,Swedbank AB (1.3B)
+1633050,SWEDBANK,Swedbank AB,Swedbank (0.9B)
+1055964,NOMURA,Nomura Group,Nomura Asset Management Co. Ltd (0.7B)
+1163653,NOMURA,Nomura Group,Nomura Holdings Inc (0.6B)
+921739,NOMURA,Nomura Group,Nomura Asset Management International
+9631,BANK_OF_NS,Bank of Nova Scotia,"Bank of Nova Scotia (main, 1.1B)"
+1335382,BANK_OF_NS,Bank of Nova Scotia,Bank of Nova Scotia Trust Co
+1163648,CI_FINANCIAL,CI Financial Corp,"CI Investments Inc. (main, 1.0B)"
+1523847,CI_FINANCIAL,CI Financial Corp,CI Global Investments Inc.
+1608485,LANSDOWNE,Lansdowne Partners,Lansdowne Partners (UK) LLP (1.4B)
+1315309,LANSDOWNE,Lansdowne Partners,Lansdowne Partners LP (US entity)
+1466546,MUFG_AM,Mitsubishi UFJ Asset Mgmt,Mitsubishi UFJ Asset Management Co. Ltd (1.0B)
+1694895,MUFG_AM,Mitsubishi UFJ Asset Mgmt,Mitsubishi UFJ Asset Management (UK) Ltd

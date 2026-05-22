@@ -1,0 +1,32 @@
+ticker,year,quarter,shares_out,inst_total,inst_pct,scale_factor,reason
+NVDA,2014,4,544913000,1542077609.0,2.83,0.3534,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2015,1,549840211,1584463296.0,2.882,0.347,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2015,2,545000000,1722524987.0,3.161,0.3164,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2015,3,544000000,1716701227.0,3.156,0.3169,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2015,4,539000000,1876197298.0,3.481,0.2873,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2016,1,541641088,1943067988.0,3.587,0.2788,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2016,2,536000000,1907546089.0,3.559,0.281,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2016,3,536000000,1484817164.0,2.77,0.361,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2016,4,585000000,1098386245.0,1.878,0.5326,Convertible note 13F contamination — inst > 100% of shares
+NVDA,2017,1,592000000,647557344.0,1.094,0.9142,Convertible note 13F contamination — inst > 100% of shares
+AAL,2020,2,508556154,1292722595.0,2.542,0.3934,COVID warrants/convertibles in 13F
+AAL,2020,3,508603895,1149956833.0,2.261,0.4423,COVID warrants/convertibles in 13F
+AAL,2020,4,621479522,1274050519.0,2.05,0.4878,COVID warrants/convertibles in 13F
+AAL,2021,1,641374475,1289068266.0,2.01,0.4975,COVID warrants/convertibles in 13F
+AAL,2021,2,647446499,1307668358.0,2.02,0.4951,COVID warrants/convertibles in 13F
+AAL,2021,3,647477469,1313121536.0,2.028,0.4931,COVID warrants/convertibles in 13F
+AAL,2021,4,647727595,1299370643.0,2.006,0.4985,COVID warrants/convertibles in 13F
+AAL,2022,1,649497768,1398844598.0,2.154,0.4643,COVID warrants/convertibles in 13F
+AAL,2022,2,649779361,1324938038.0,2.039,0.4904,COVID warrants/convertibles in 13F
+AAL,2022,3,649863026,1402057964.0,2.157,0.4635,COVID warrants/convertibles in 13F
+AAL,2022,4,650642461,1412860492.0,2.171,0.4605,COVID warrants/convertibles in 13F
+AAL,2023,1,652817674,1345935924.0,2.062,0.485,COVID warrants/convertibles in 13F
+AAL,2023,2,653286761,1295559219.0,1.983,0.5043,COVID warrants/convertibles in 13F
+AAL,2023,3,653504063,1367907409.0,2.093,0.4777,COVID warrants/convertibles in 13F
+AAL,2023,4,654273192,1284864318.0,1.964,0.5092,COVID warrants/convertibles in 13F
+AAL,2024,1,656045635,1335190323.0,2.035,0.4913,COVID warrants/convertibles in 13F
+AAL,2024,2,656607802,1372244502.0,2.09,0.4785,COVID warrants/convertibles in 13F
+AAL,2024,3,657102842,1366563763.0,2.08,0.4808,COVID warrants/convertibles in 13F
+AAL,2024,4,657566166,1427590760.0,2.171,0.4606,COVID warrants/convertibles in 13F
+AAL,2025,1,659481003,1372054631.0,2.081,0.4807,COVID warrants/convertibles in 13F
+AAL,2025,2,659797256,1329857476.0,2.016,0.4961,COVID warrants/convertibles in 13F
