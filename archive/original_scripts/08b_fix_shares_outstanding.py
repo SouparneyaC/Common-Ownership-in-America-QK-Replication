@@ -1,26 +1,3 @@
-"""
-SCRIPT 08b: Audit and Fix Shares Outstanding for 9 Firms
-=========================================================
-Finds and corrects three classes of errors in shares_outstanding_9firms.csv:
-
-  Problem 1 — AAPL 2014Q1: EDGAR reported 861,745 instead of 861,745,000
-              (units error: XBRL filed in thousands, not shares)
-              Fix: multiply by 1000
-
-  Problem 2 — NVDA 2021Q2: EDGAR picked up a post-split filing (2,489M)
-              but our 13F holdings for that quarter are pre-split (~429M held)
-              Fix: use pre-split shares (~621M from Q1 2021)
-
-  Problem 3 — NVDA 2014Q4–2016Q4: total institutional > 100% of shares
-              This is convertible note contamination in QK's 13F data.
-              Institutions holding NVDA convertible bonds report share
-              equivalents in their 13F, inflating apparent ownership.
-              Fix: flag these quarters so κ computation can scale properly.
-
-OUTPUT: data/shares_outstanding_9firms_fixed.csv
-        data/contaminated_quarters.csv   (NVDA quarters with >100% inst ownership)
-"""
-
 import os, ssl, certifi, requests
 import pandas as pd
 import numpy as np
@@ -43,9 +20,7 @@ h = pd.read_csv(os.path.join(DATA_DIR, "holdings_9firms.csv"), dtype={"filer_cik
 fixes = []
 contaminated = []
 
-# ─────────────────────────────────────────────────────────────────────────────
 # FIX 1: AAPL 2014Q1 — multiply shares by 1000
-# ─────────────────────────────────────────────────────────────────────────────
 
 mask_aapl = (s.ticker == "AAPL") & (s.year == 2014) & (s.quarter == 1)
 original = s.loc[mask_aapl, "shares"].iloc[0]
@@ -62,9 +37,7 @@ fixes.append({
 })
 print(f"FIX 1 — AAPL 2014Q1: {original:,.0f} → {corrected:,.0f}")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # FIX 2: NVDA 2021Q2 — replace post-split shares with pre-split value
-# ─────────────────────────────────────────────────────────────────────────────
 # The 4:1 split happened July 19 2021 (calendar Q3).
 # Our EDGAR scraper picked up NVDA's fiscal Q2 filing (ending Jul 25)
 # which already reflects the post-split count (2,489M).
@@ -86,9 +59,7 @@ fixes.append({
 })
 print(f"FIX 2 — NVDA 2021Q2: {post_split_reported/1e6:.0f}M → {q1_shares/1e6:.0f}M (pre-split)")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # FIX 3: NVDA 2014Q4–2016Q4 — detect convertible note contamination
-# ─────────────────────────────────────────────────────────────────────────────
 # When inst_total > total_shares, holdings data is contaminated by
 # convertible note reporting. We flag these quarters and compute a
 # scaling factor (shares / inst_total) for use in κ computation.
@@ -128,9 +99,7 @@ for year in range(2013, 2026):
                   f"shares={shares_out/1e6:.0f}M  "
                   f"ratio={inst_pct:.2f}x  scale={scale_factor:.4f}")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # VERIFY ALL OTHER FIRMS LOOK CLEAN
-# ─────────────────────────────────────────────────────────────────────────────
 
 print()
 print("Verifying remaining firms (AAL included — known COVID warrant contamination)...")
@@ -158,9 +127,7 @@ for ticker in ["AAPL", "MSFT", "AAL", "DAL", "JPM", "BAC", "PFE", "MRK"]:
     else:
         print(f"  {ticker}: OK")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # SAVE
-# ─────────────────────────────────────────────────────────────────────────────
 
 if "notes" not in s.columns:
     s["notes"] = ""

@@ -1,16 +1,3 @@
-"""
-SCRIPT 09: Compute Corrected κ — All 3 Fixes Applied
-=====================================================
-Applies:
-  Fix 1 — shares_outstanding_9firms_fixed.csv  (AAPL 2014Q1, NVDA 2021Q2)
-  Fix 2 — entity_consolidation_map.csv          (BlackRock, Capital Group, etc.)
-  Fix 3 — contaminated_quarters.csv             (NVDA 2014-2016, AAL 2020+)
-
-Then computes κ for all 72 ordered pairs × 50 quarters and saves:
-  data/kappa_9firms_corrected.csv  — full pair-level detail
-  data/kappa_mean_by_quarter.csv   — mean κ per quarter (for Figure 1 plot in R)
-"""
-
 import os, numpy as np, pandas as pd
 from itertools import permutations
 

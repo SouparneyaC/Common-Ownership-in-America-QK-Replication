@@ -1,24 +1,3 @@
-"""
-SCRIPT 07: Pull Full Time Series for 9 Target Firms (2013Q3–2025Q4)
-====================================================================
-Target firms: AAPL, MSFT, AAL, DAL, JPM, BAC, PFE, MRK, NVDA
-Quarters:     2013Q3 through 2025Q4 = 50 quarters
-Total calls:  ~426 (24 already done from script 01 — tracked in checkpoint CSV)
-Credits:      ~8,520 at 20 credits/call
-
-OUTPUT FILES:
-  data/holdings_9firms.csv     — one row per investor per firm-quarter
-  data/completed_9firms.csv    — checkpoint: one row per completed firm-quarter
-
-IRON RULES:
-  - Every API response is written to CSV before the next call fires.
-  - Checkpoint CSV prevents any call from being repeated on restart.
-  - Kill the script anytime — restart picks up exactly where it stopped.
-
-USAGE:
-  QK_API_KEY=your_key python3 07_pull_9firms_timeseries.py
-"""
-
 import ssl, certifi
 ssl._create_default_https_context = lambda: ssl.create_default_context(cafile=certifi.where())
 import urllib.request
@@ -29,9 +8,7 @@ import os, io, sys, time, csv, requests, pandas as pd
 from datetime import datetime, timezone
 import qkiosk as qk
 
-# ─────────────────────────────────────────────────────────────────────────────
 # TARGET FIRMS
-# ─────────────────────────────────────────────────────────────────────────────
 
 TARGET_FIRMS = [
     # ticker    CIK (stripped)   SIC    industry
@@ -64,9 +41,7 @@ HOLDINGS_COLS   = ["ticker", "issuer_cik", "issuer_sic", "industry",
                    "year", "quarter", "filer_cik", "filer_name", "shares_held", "fetched_at"]
 CHECKPOINT_COLS = ["ticker", "issuer_cik", "year", "quarter", "n_investors", "completed_at"]
 
-# ─────────────────────────────────────────────────────────────────────────────
 # CHECKPOINT — load what's already done
-# ─────────────────────────────────────────────────────────────────────────────
 
 def load_completed():
     """Returns set of (cik, year, quarter) already done."""
@@ -133,9 +108,7 @@ def write_holdings(ticker, cik, sic, industry, df, year, quarter):
 
     return len(equity)
 
-# ─────────────────────────────────────────────────────────────────────────────
 # FETCH
-# ─────────────────────────────────────────────────────────────────────────────
 
 def fetch_holders(cik_stripped, year, quarter):
     api_key    = qk.get_apikey()
@@ -154,9 +127,7 @@ def fetch_holders(cik_stripped, year, quarter):
     except Exception as e:
         return pd.DataFrame(), f"error:{str(e)[:50]}"
 
-# ─────────────────────────────────────────────────────────────────────────────
 # MAIN
-# ─────────────────────────────────────────────────────────────────────────────
 
 def main():
     print("=" * 62)

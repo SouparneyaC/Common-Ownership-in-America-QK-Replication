@@ -1,22 +1,3 @@
-"""
-SCRIPT 09: Compute κ and Plot Figure 1 — Common Ownership Over Time
-=====================================================================
-Replicates Figure 1 of Backus, Conlon & Sinkinson (2019) using our
-9-firm dataset: AAPL, MSFT, AAL, DAL, JPM, BAC, PFE, MRK, NVDA.
-
-WHAT THIS SCRIPT DOES:
-  1. Loads institutional holdings + shares outstanding
-  2. Computes β_fs = shares_held / total_shares_outstanding  (proper version)
-  3. For each quarter, computes κ_fg for every firm pair (f ≠ g):
-         κ_fg = Σ_s(β_fs × β_gs) / Σ_s(β_fs²)
-  4. Computes mean κ across all pairs per quarter
-  5. Plots the time series — our Figure 1 replica
-
-OUTPUT:
-  plots/fig1_kappa_timeseries.png
-  data/kappa_9firms.csv
-"""
-
 import os
 import numpy as np
 import pandas as pd
@@ -24,9 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from itertools import combinations
 
-# ─────────────────────────────────────────────────────────────────────────────
 # PATHS
-# ─────────────────────────────────────────────────────────────────────────────
 
 BASE        = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR    = os.path.join(BASE, "..", "data")
@@ -47,9 +26,7 @@ SIC = {
     "NVDA": 3674,
 }
 
-# ─────────────────────────────────────────────────────────────────────────────
 # LOAD DATA
-# ─────────────────────────────────────────────────────────────────────────────
 
 print("Loading data...")
 holdings = pd.read_csv(HOLDINGS_CSV, dtype={"filer_cik": str})
@@ -62,9 +39,7 @@ shares["shares"]        = pd.to_numeric(shares["shares"], errors="coerce")
 print(f"  Holdings rows:  {len(holdings):,}")
 print(f"  Shares rows:    {len(shares):,}")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # COMPUTE κ FOR EVERY PAIR × EVERY QUARTER
-# ─────────────────────────────────────────────────────────────────────────────
 
 tickers = sorted(holdings["ticker"].unique())
 pairs   = list(combinations(tickers, 2))   # 36 unordered pairs from 9 firms
@@ -161,9 +136,7 @@ kappa_df = pd.DataFrame(records)
 kappa_df.to_csv(KAPPA_CSV, index=False)
 print(f"  Saved {len(kappa_df):,} pair-quarter rows → {KAPPA_CSV}")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # FIGURE 1 — Mean κ across all pairs over time
-# ─────────────────────────────────────────────────────────────────────────────
 
 # Use symmetric κ: average of κ_fg and κ_gf for each pair
 kappa_df["kappa_sym"] = (kappa_df["kappa_fg"] + kappa_df["kappa_gf"]) / 2
@@ -245,9 +218,7 @@ plt.savefig(PLOT_PATH, dpi=150, bbox_inches="tight")
 plt.show()
 print(f"\nSaved → {PLOT_PATH}")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # QUICK SUMMARY TABLE
-# ─────────────────────────────────────────────────────────────────────────────
 
 print("\n=== Mean κ by period ===")
 kappa_df["period"] = pd.cut(

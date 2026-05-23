@@ -1,32 +1,11 @@
-"""
-SCRIPT 08c: Build Comprehensive Entity Consolidation Map
-=========================================================
-Systematically identifies every institutional investor in our
-holdings_9firms.csv that files under multiple CIKs, and maps
-all sub-entity CIKs to a single canonical parent_id.
-
-METHOD:
-  1. Extract all unique (CIK, name) pairs from holdings data
-  2. Group by name keywords to find multi-CIK parents
-  3. Manually verify each group to remove false positives
-  4. Save definitive mapping → data/entity_consolidation_map.csv
-
-The κ computation script then uses this to aggregate holdings by
-parent_id before computing β, exactly as the paper does for BlackRock.
-
-OUTPUT: data/entity_consolidation_map.csv
-"""
-
 import os, pandas as pd
 
 DATA_DIR   = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 OUTPUT_CSV = os.path.join(DATA_DIR, "entity_consolidation_map.csv")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # COMPLETE CONSOLIDATION MAP
 # Format: (cik, parent_id, parent_name, notes)
 # Only genuine same-parent entities — false positives excluded
-# ─────────────────────────────────────────────────────────────────────────────
 
 CONSOLIDATION = [
 
@@ -163,16 +142,12 @@ CONSOLIDATION = [
     ("1694895", "MUFG_AM",         "Mitsubishi UFJ Asset Mgmt",   "Mitsubishi UFJ Asset Management (UK) Ltd"),
 ]
 
-# ─────────────────────────────────────────────────────────────────────────────
 # BUILD AND SAVE
-# ─────────────────────────────────────────────────────────────────────────────
 
 df = pd.DataFrame(CONSOLIDATION, columns=["cik","parent_id","parent_name","notes"])
 df.to_csv(OUTPUT_CSV, index=False)
 
-# ─────────────────────────────────────────────────────────────────────────────
 # SUMMARY
-# ─────────────────────────────────────────────────────────────────────────────
 
 print("=" * 65)
 print("ENTITY CONSOLIDATION MAP — COMPLETE")

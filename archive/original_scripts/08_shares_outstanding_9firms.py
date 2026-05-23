@@ -1,24 +1,3 @@
-"""
-SCRIPT 08: Shares Outstanding for 9 Target Firms (Quarterly, 2013Q3–2025Q4)
-=============================================================================
-Source: SEC EDGAR XBRL API — completely free, no API key, no quota
-Output: data/shares_outstanding_9firms.csv
-
-WHY WE NEED THIS:
-  Proper β_fs = shares_held_by_s / total_shares_outstanding_of_f
-  Without total shares, we can't compute the retail share (r_f = 1 - Σβ_fs)
-  and κ will be systematically underestimated.
-
-HOW IT WORKS:
-  SEC EDGAR stores every XBRL value reported in 10-K and 10-Q filings.
-  For each firm and each quarter-end date, we find the closest reported
-  CommonStockSharesOutstanding value (within 90 days).
-
-USAGE:
-  python3.12 08_shares_outstanding_9firms.py
-  Runs in ~2 minutes. No API key. Safe to rerun.
-"""
-
 import ssl, certifi
 ssl._create_default_https_context = lambda: ssl.create_default_context(cafile=certifi.where())
 import urllib.request
@@ -35,9 +14,7 @@ SEC_HEADERS      = {"User-Agent": "research souparneya@gmail.com"}
 DATE_TOLERANCE   = 90    # days — accept filings within this many days of quarter-end
 SLEEP            = 0.15  # seconds between SEC requests (well under 10 req/s limit)
 
-# ─────────────────────────────────────────────────────────────────────────────
 # TARGET FIRMS
-# ─────────────────────────────────────────────────────────────────────────────
 
 TARGET_FIRMS = [
     ("AAPL",  "0000320193"),
@@ -70,9 +47,7 @@ VALID_FORMS = {"10-K", "10-Q", "10-K/A", "10-Q/A"}
 OUTPUT_COLS = ["ticker", "cik", "quarter_end", "year", "quarter",
                "shares", "report_date", "form_type", "xbrl_field"]
 
-# ─────────────────────────────────────────────────────────────────────────────
 # HELPERS
-# ─────────────────────────────────────────────────────────────────────────────
 
 def quarter_of(d):
     return (d.month - 1) // 3 + 1
@@ -117,9 +92,7 @@ def find_shares(xbrl_data, target_date):
         return best[1], best[2], best[3], best[4]
     return None, None, None, None
 
-# ─────────────────────────────────────────────────────────────────────────────
 # MAIN
-# ─────────────────────────────────────────────────────────────────────────────
 
 def main():
     print("=" * 60)
