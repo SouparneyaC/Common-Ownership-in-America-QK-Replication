@@ -6,21 +6,20 @@ The original paper measured how much competing S&P 500 firms are owned by the sa
 
 ---
 
-## What This Repository Contains
+## Content
 
 ```
 common-ownership-replication/
 │
-├── src/                    Core pipeline scripts (pull → compute → plot)
-├── data/processed/         Cleaned outputs ready for analysis
-├── data/reference/         Static reference data (S&P 500 history, etc.)
-├── notebooks/              Jupyter analysis notebooks
-├── notebooks/pdf/          PDF exports for sharing
-├── plots/                  All figures
-├── docs/                   Methodology, data guide, how to extend
-└── archive/                Sinkinson's original Perl script + exploration work
+├── src/                    
+├── data/processed/         
+├── data/reference/         
+├── notebooks/              
+├── notebooks/pdf/          
+├── plots/                  
+├── docs/                   
+└── archive/                
 ```
-
 ---
 
 ## Quick Start
@@ -82,20 +81,11 @@ Airlines, banks, and the pharma pair are the paper's own case study industries (
 
 ## Data Notes
 
-The large holdings file (`holdings_9firms.csv`, ~108MB) is excluded from this repository. Run `src/pull_data.py` to regenerate it — the script requires a QUANTkiosk API key and completes in a single session (~450 calls at ~20 credits each).
+1. The large holdings file (`holdings_9firms.csv`, ~108MB) is excluded from this repository. Run `src/pull_data.py` to regenerate it — the script requires a QUANTkiosk API key and completes in a single session (~450 calls at ~20 credits each).
 
-All processed outputs (κ values, shares outstanding, entity map, contamination flags) are included and do not require re-pulling from the API.
+2. All processed outputs (κ values, shares outstanding, entity map, contamination flags) are included and do not require re-pulling from the API.
 
-The pre-XML scraped SEC corpus (`scrape_parsed.csv`, 2.2GB, 1999–2017) is the dataset released by the original paper's authors. It is not hosted here due to size. See `docs/data_guide.md` for details.
-
----
-
-## Extending the Analysis
-
-See `docs/extending.md` for step-by-step instructions on:
-- Adding new firms to the universe
-- Extending to additional quarters as they become available
-- Scaling up to the full S&P 500
+3. The pre-XML scraped SEC corpus (`scrape_parsed.csv`, 2.2GB, 1999–2017) is the dataset released by the original paper's authors. It is not hosted here due to size. See `docs/data_guide.md` for details.
 
 ---
 
