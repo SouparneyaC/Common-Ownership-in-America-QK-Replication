@@ -1,30 +1,6 @@
 """
 SCRIPT 01: Pull 13(F) Holdings Data from QUANTkiosk
 =====================================================
-Applies all rules from kalshi_data_collection_rules.md to this pipeline.
-
-RULES IN EFFECT:
-  Rule 1 — Every API response is written to SQLite before the next call fires.
-  Rule 2 — Deduplication is handled by the database schema (UNIQUE + INSERT OR IGNORE),
-            not by application code. Safe to rerun — no duplicates ever created.
-  Rule 3 — Script is designed to resume, not restart. Killing it at any point
-            loses at most one in-flight request. Everything before it is in the DB.
-  Rule 4 — API quota is tracked. A soft limit stops the script before the daily
-            budget is exhausted, preserving calls for other uses.
-  Rule 5 — Run with --test first to verify one firm writes correctly before
-            committing the full run.
-
-USAGE:
-  # Step 1: Always test one firm first (costs 1 API call)
-  python3 01_pull_data.py --test
-
-  # Step 2: If step 1 shows a row in the DB, run for real
-  python3 01_pull_data.py
-
-  # Safe to kill and restart at any time. Already-downloaded firms are skipped.
-
-OUTPUT:
-  ../data/holdings.db  — SQLite database with all holdings and progress tracking
 """
 
 import ssl, certifi
