@@ -28,7 +28,6 @@ def already_done(ticker, year, quarter):
 
 
 def fetch_holders(cik, year, quarter):
-    # Pull issuer-perspective 13(f) data for one firm-quarter
     # Returns equity-only holdings aggregated to manager level, or None
     url = (f"https://api.qkiosk.io/data/instrument"
            f"?apiKey={os.environ['QK_API_KEY']}"

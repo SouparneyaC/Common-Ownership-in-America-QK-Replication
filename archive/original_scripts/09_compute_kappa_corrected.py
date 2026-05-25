@@ -3,7 +3,7 @@ from itertools import permutations
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 
-# ── Load all inputs ──────────────────────────────────────────────────────────
+# Load inputs
 print("Loading data...")
 h      = pd.read_csv(f"{DATA_DIR}/holdings_9firms.csv", dtype={"filer_cik": str})
 shares = pd.read_csv(f"{DATA_DIR}/shares_outstanding_9firms_fixed.csv")
@@ -25,7 +25,7 @@ print(f"  Firms: {tickers}")
 print(f"  Pairs: {len(pairs)} ordered  |  Quarters: {len(quarters)}")
 print()
 
-# ── Compute κ ────────────────────────────────────────────────────────────────
+# Compute κ for each ordered pair × quarter
 SIC = {"AAPL":3571,"MSFT":7372,"AAL":4512,"DAL":4512,
        "JPM":6021,"BAC":6021,"PFE":2834,"MRK":2834,"NVDA":3674}
 
@@ -35,11 +35,11 @@ for year, quarter in quarters:
     h_q = h[(h.year==year) & (h.quarter==quarter)].copy()
     s_q = shares[(shares.year==year) & (shares.quarter==quarter)]
 
-    # ── Step 1: Apply entity consolidation ────────────────────────────────
+    # Step 1: Apply entity consolidation
     h_q["parent"] = h_q["filer_cik"].map(cik_to_parent).fillna(h_q["filer_cik"])
     h_q = h_q.groupby(["ticker","parent"])["shares_held"].sum().reset_index()
 
-    # ── Step 2: Apply contamination scaling ───────────────────────────────
+    # Step 2: Apply contamination scaling
     beta = {}
     retail = {}
     ihhi = {}
@@ -65,7 +65,7 @@ for year, quarter in quarters:
         retail[ticker] = max(0.0, 1.0 - b.sum())
         ihhi[ticker]   = float((b**2).sum())
 
-    # ── Step 3: Compute κ for each ordered pair ────────────────────────────
+    # Step 3: Compute κ for each ordered pair
     for f, g in pairs:
         if f not in beta or g not in beta:
             continue
@@ -101,11 +101,11 @@ for year, quarter in quarters:
 kappa = pd.DataFrame(records)
 kappa["time"] = kappa["year"] + (kappa["quarter"] - 0.5) / 4
 
-# ── Save full pair-level file ────────────────────────────────────────────────
+# Save outputs
 kappa.to_csv(f"{DATA_DIR}/kappa_9firms_corrected.csv", index=False)
 print(f"Saved kappa_9firms_corrected.csv  ({len(kappa):,} rows)")
 
-# ── Build mean-by-quarter summary for R plotting ────────────────────────────
+# Mean κ per quarter for R plotting
 mean_q = (kappa.groupby(["year","quarter","time"])
                .agg(
                    kappa_all    = ("kappa","mean"),
@@ -118,7 +118,7 @@ mean_q = (kappa.groupby(["year","quarter","time"])
 mean_q.to_csv(f"{DATA_DIR}/kappa_mean_by_quarter.csv", index=False)
 print(f"Saved kappa_mean_by_quarter.csv   ({len(mean_q)} quarters)")
 
-# ── Quick sanity check ───────────────────────────────────────────────────────
+# Sanity check
 print()
 print("Mean κ by period (all pairs):")
 kappa["period"] = pd.cut(kappa["year"],

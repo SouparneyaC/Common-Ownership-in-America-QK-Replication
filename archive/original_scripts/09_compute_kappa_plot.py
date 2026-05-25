@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from itertools import combinations
 
-# PATHS
-
 BASE        = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR    = os.path.join(BASE, "..", "data")
 PLOTS_DIR   = os.path.join(BASE, "..", "plots")
@@ -26,8 +24,6 @@ SIC = {
     "NVDA": 3674,
 }
 
-# LOAD DATA
-
 print("Loading data...")
 holdings = pd.read_csv(HOLDINGS_CSV, dtype={"filer_cik": str})
 shares   = pd.read_csv(SHARES_CSV)
@@ -38,8 +34,6 @@ shares["shares"]        = pd.to_numeric(shares["shares"], errors="coerce")
 
 print(f"  Holdings rows:  {len(holdings):,}")
 print(f"  Shares rows:    {len(shares):,}")
-
-# COMPUTE κ FOR EVERY PAIR × EVERY QUARTER
 
 tickers = sorted(holdings["ticker"].unique())
 pairs   = list(combinations(tickers, 2))   # 36 unordered pairs from 9 firms
@@ -136,9 +130,7 @@ kappa_df = pd.DataFrame(records)
 kappa_df.to_csv(KAPPA_CSV, index=False)
 print(f"  Saved {len(kappa_df):,} pair-quarter rows → {KAPPA_CSV}")
 
-# FIGURE 1 — Mean κ across all pairs over time
-
-# Use symmetric κ: average of κ_fg and κ_gf for each pair
+# Figure 1 — mean κ across all pairs over time (symmetric: avg of κ_fg and κ_gf)
 kappa_df["kappa_sym"] = (kappa_df["kappa_fg"] + kappa_df["kappa_gf"]) / 2
 
 # Time axis: decimal year (e.g. 2013.75 for Q3)
@@ -218,18 +210,16 @@ plt.savefig(PLOT_PATH, dpi=150, bbox_inches="tight")
 plt.show()
 print(f"\nSaved → {PLOT_PATH}")
 
-# QUICK SUMMARY TABLE
-
-print("\n=== Mean κ by period ===")
 kappa_df["period"] = pd.cut(
     kappa_df["year"],
     bins=[2012, 2015, 2018, 2021, 2025],
     labels=["2013–2015", "2016–2018", "2019–2021", "2022–2025"]
 )
+print("\nMean κ by period:")
 print(kappa_df.groupby("period")["kappa_sym"].mean().round(3).to_string())
 
-print("\n=== Latest quarter κ for each pair ===")
 latest = kappa_df[kappa_df["time"] == kappa_df["time"].max()]
-print(latest[["firm_f","firm_g","kappa_fg","kappa_gf","retail_f","cosine","same_sic"]]
+print("\nLatest quarter κ by pair:")
+print(latest[["firm_f", "firm_g", "kappa_fg", "kappa_gf", "retail_f", "cosine", "same_sic"]]
       .sort_values("kappa_fg", ascending=False)
       .to_string(index=False))

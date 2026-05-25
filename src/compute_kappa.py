@@ -14,8 +14,7 @@ def load_data():
 
 
 def build_beta(holdings_q, shares_q, cik_to_parent, contam_scale, year, quarter):
-    # Apply entity consolidation then compute β_fs = shares / shares_outstanding
-    # Scale contaminated firm-quarters so aggregate institutional share <= 1
+    # Apply entity consolidation, compute β_fs = shares / shares_outstanding
     hq = holdings_q.copy()
     hq['parent'] = hq['filer_cik'].map(cik_to_parent).fillna(hq['filer_cik'])
     hq = hq.groupby(['ticker', 'parent'])['shares_held'].sum().reset_index()

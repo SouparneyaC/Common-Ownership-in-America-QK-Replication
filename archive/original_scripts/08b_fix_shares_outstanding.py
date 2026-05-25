@@ -9,11 +9,6 @@ INPUT_CSV  = os.path.join(DATA_DIR, "shares_outstanding_9firms.csv")
 OUTPUT_CSV = os.path.join(DATA_DIR, "shares_outstanding_9firms_fixed.csv")
 CONTAM_CSV = os.path.join(DATA_DIR, "contaminated_quarters.csv")
 
-print("=" * 60)
-print("SCRIPT 08b — Shares Outstanding Audit & Fix")
-print("=" * 60)
-print()
-
 s = pd.read_csv(INPUT_CSV)
 h = pd.read_csv(os.path.join(DATA_DIR, "holdings_9firms.csv"), dtype={"filer_cik": str})
 
@@ -99,10 +94,8 @@ for year in range(2013, 2026):
                   f"shares={shares_out/1e6:.0f}M  "
                   f"ratio={inst_pct:.2f}x  scale={scale_factor:.4f}")
 
-# VERIFY ALL OTHER FIRMS LOOK CLEAN
-
 print()
-print("Verifying remaining firms (AAL included — known COVID warrant contamination)...")
+print("Verifying remaining firms...")
 for ticker in ["AAPL", "MSFT", "AAL", "DAL", "JPM", "BAC", "PFE", "MRK"]:
     firm_s = s[s.ticker == ticker]
     inst_by_q = h[h.ticker == ticker].groupby(["year","quarter"])["shares_held"].sum().reset_index()
@@ -127,8 +120,6 @@ for ticker in ["AAPL", "MSFT", "AAL", "DAL", "JPM", "BAC", "PFE", "MRK"]:
     else:
         print(f"  {ticker}: OK")
 
-# SAVE
-
 if "notes" not in s.columns:
     s["notes"] = ""
 s["notes"] = s["notes"].fillna("")
@@ -136,16 +127,9 @@ s["notes"] = s["notes"].fillna("")
 s.to_csv(OUTPUT_CSV, index=False)
 pd.DataFrame(contaminated).to_csv(CONTAM_CSV, index=False)
 
-print()
-print("=" * 60)
-print("SUMMARY OF FIXES")
-print("=" * 60)
+print("\nFixes applied:")
 for f in fixes:
-    print(f"  {f['firm']} {f['quarter']}: {f['original']} → {f['corrected']}")
-    print(f"    Reason: {f['reason']}")
+    print(f"  {f['firm']} {f['quarter']}: {f['original']} → {f['corrected']}  ({f['reason']})")
 
-print()
-print(f"Contaminated NVDA quarters: {len(contaminated)}")
-print(f"  (Scale factors saved to {CONTAM_CSV})")
-print()
-print(f"Fixed shares file → {OUTPUT_CSV}")
+print(f"\nContaminated quarters: {len(contaminated)}")
+print(f"Output: {OUTPUT_CSV}  |  {CONTAM_CSV}")

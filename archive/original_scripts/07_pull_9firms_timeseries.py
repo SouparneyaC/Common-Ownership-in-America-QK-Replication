@@ -130,16 +130,12 @@ def fetch_holders(cik_stripped, year, quarter):
 # MAIN
 
 def main():
-    print("=" * 62)
-    print("SCRIPT 07 — 9-Firm Full Time Series Pull")
-    print("Output: CSV files (holdings_9firms.csv + completed_9firms.csv)")
-    print("=" * 62)
+    print("9-Firm Full Time Series Pull")
     print()
 
-    # Quota check
     acct      = qk.account()
     remaining = acct.quota - acct.usage
-    print(f"Quota: {acct.usage}/{acct.quota} used | {remaining} remaining")
+    print(f"Quota: {acct.usage}/{acct.quota} used  ({remaining} remaining)")
     print()
 
     # Load checkpoint
@@ -210,26 +206,18 @@ def main():
 
         time.sleep(SLEEP)
 
-    print("\n")
+    print()
 
-    # Summary
-    elapsed_total = time.time() - start_time
+    elapsed_total   = time.time() - start_time
     final_remaining = qk.account().quota - qk.account().usage
     completed_final = load_completed()
 
-    print("=" * 62)
-    print("DONE")
-    print("=" * 62)
-    print(f"  Calls made:       {calls_made}")
-    print(f"  Credits used:     ~{calls_made * 20:,}")
-    print(f"  Quota remaining:  {final_remaining}")
-    print(f"  Time elapsed:     {elapsed_total/60:.1f} minutes")
-    print(f"  Holdings CSV:     {HOLDINGS_CSV}")
-    print(f"  Checkpoint CSV:   {CHECKPOINT_CSV}")
+    print(f"Done — {calls_made} calls, ~{calls_made * 20:,} credits, "
+          f"{elapsed_total/60:.1f} min, {final_remaining} quota remaining")
     print()
     print("Coverage per firm:")
     for (ticker, cik, sic, industry) in TARGET_FIRMS:
-        n_done = sum(1 for (c,y,q) in completed_final if c == cik)
+        n_done = sum(1 for (c, y, q) in completed_final if c == cik)
         print(f"  {ticker:<5}  {n_done:>3}/50 quarters")
 
 if __name__ == "__main__":

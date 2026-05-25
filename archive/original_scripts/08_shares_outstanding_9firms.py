@@ -60,7 +60,6 @@ def fetch_xbrl(cik_padded):
     return r.json()
 
 def find_shares(xbrl_data, target_date):
-    """Find shares outstanding closest to target_date across all XBRL fields."""
     facts = xbrl_data.get("facts", {})
     best  = None   # (days_diff, shares, report_date, form_type, field_name)
 
@@ -95,12 +94,7 @@ def find_shares(xbrl_data, target_date):
 # MAIN
 
 def main():
-    print("=" * 60)
-    print("SCRIPT 08 — Shares Outstanding for 9 Firms (Quarterly)")
-    print("Source: SEC EDGAR XBRL  |  Free, no quota")
-    print("=" * 60)
-    print(f"Firms:    {len(TARGET_FIRMS)}   Quarters: {len(QUARTER_ENDS)}")
-    print(f"Output:   {OUTPUT_CSV}")
+    print(f"Shares outstanding: {len(TARGET_FIRMS)} firms × {len(QUARTER_ENDS)} quarters  →  {OUTPUT_CSV}")
     print()
 
     rows_written = 0
@@ -142,12 +136,9 @@ def main():
             time.sleep(SLEEP)
 
     print()
-    print("=" * 60)
     print(f"Done — {rows_written} rows written to {OUTPUT_CSV}")
     if firms_missing:
         print(f"Missing data: {firms_missing}")
-    print()
-    print("Next step: run 09_compute_kappa_9firms.py")
 
 if __name__ == "__main__":
     main()
