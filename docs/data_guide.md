@@ -4,8 +4,29 @@
 
 All files live in `data/processed/`.
 
-### kappa_9firms_corrected.csv
-The main output of `src/compute_kappa.py`. One row per ordered firm pair per quarter.
+### kappa_48firms_decomposed_big3_split.csv
+**The headline result.** Output of `src/decompose_kappa_big3.py` — 112,332
+rows (48 firms, 2,256 ordered pairs, 50 quarters, minus pairs with
+insufficient institutional coverage in a given quarter). The Key Findings in
+the README and the Big Three split numbers in `docs/methodology.md` are drawn
+directly from this file.
+
+| Column | Description |
+|--------|-------------|
+| year, quarter, time | Reporting period (time = decimal year for plotting) |
+| firm_f, firm_g | The ordered pair (f places weight on g's profits) |
+| kappa | Common ownership profit weight κ_fg |
+| contrib_Vanguard, contrib_BlackRock, contrib_State Street | Each Big Three member's individual contribution to κ_fg |
+| contrib_Passive, contrib_Active, contrib_Hedge Fund, contrib_Other | Remaining investor-type contributions |
+
+All seven `contrib_*` columns sum exactly to `kappa` for every row (additive
+by construction — see `docs/methodology.md`).
+
+### kappa_48firms_corrected.csv
+Output of `src/compute_kappa.py` — the non-decomposed κ series with SIC/cosine/IHHI
+columns (one row per ordered firm pair per quarter). Not shipped pre-built in
+this repo (it requires a live re-pull via `pull_data.py`); regenerate with
+`compute_kappa.py` once you have `holdings_48firms.csv`.
 
 | Column | Description |
 |--------|-------------|
@@ -19,15 +40,20 @@ The main output of `src/compute_kappa.py`. One row per ordered firm pair per qua
 | ihhi_f, ihhi_g | Investor HHI for each firm |
 | retail_f | Fraction of firm f not held by 13(f) filers (retail share) |
 
-### kappa_mean_by_quarter.csv
-Quarter-level mean of κ across all 72 ordered pairs. Used for Figure 1.
+### kappa_48firms_mean_by_quarter.csv
+Quarter-level mean of κ across all 2,256 ordered pairs, derived from the
+decomposed dataset above. Used for Figure 1.
 
-### shares_outstanding_9firms_fixed.csv
-Quarterly shares outstanding for each firm, with data quality fixes applied.
-Pulled from SEC EDGAR XBRL. Source field indicates which XBRL field was used.
+### shares_outstanding_48firms.csv
+Quarterly shares outstanding for all 48 firms (2,400 rows = 48 firms × 50
+quarters), with all data quality fixes applied. Pulled from SEC EDGAR XBRL
+across three batches (pilot, batches 2–3, universe) and merged. Source field
+indicates which XBRL field was used.
 
 ### entity_consolidation_map.csv
-Maps subsidiary CIK numbers to canonical parent entity IDs.
+Maps subsidiary CIK numbers to canonical parent entity IDs. Firm-universe
+agnostic — built from institutional filer structure, not from the specific
+48 firms analyzed, so it doesn't need to grow as the firm universe does.
 
 | Column | Description |
 |--------|-------------|
@@ -39,10 +65,16 @@ Maps subsidiary CIK numbers to canonical parent entity IDs.
 Firm-quarters where aggregate institutional holdings exceeded shares outstanding.
 Contains the scale factor applied to correct the contamination.
 
-### completed_9firms.csv
+### completed_48firms.csv
 Checkpoint file created by `src/pull_data.py`. Records every firm-quarter that
 has been successfully pulled from the QK API. The pull script reads this before
 making any API call to avoid duplication.
+
+### Superseded pilot-scale files (kept for reference)
+`kappa_9firms_corrected.csv`, `shares_outstanding_9firms_fixed.csv`, and
+`completed_9firms.csv` are the original 9-firm pilot's outputs, from before
+the universe was expanded to 48 firms. They're kept for provenance but are no
+longer what the pipeline scripts read by default.
 
 ---
 
@@ -56,9 +88,11 @@ covering every addition and removal from 1976 onward.
 
 ## Large Files (excluded from repo)
 
-### holdings_9firms.csv (~108 MB)
-One row per institutional investor per firm per quarter. This is the raw output
-of `src/pull_data.py`. Excluded from git due to size.
+### holdings_48firms.csv (~450 MB)
+One row per institutional investor per firm per quarter, across all 48 firms.
+This is the raw output of `src/pull_data.py`. Excluded from git due to size
+(the original 9-firm pilot's version was ~108 MB; the file grew roughly
+proportionally as the universe expanded to 48 firms).
 
 To regenerate: `QK_API_KEY=your_key python3 src/pull_data.py`
 

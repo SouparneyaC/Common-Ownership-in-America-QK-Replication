@@ -16,8 +16,8 @@ plt.rcParams.update({
 
 
 def fig1_kappa_over_time():
-    # Mean profit weight across all 72 ordered pairs — replicates paper Figure 1
-    df = pd.read_csv(data_dir / 'kappa_mean_by_quarter.csv')
+    # Mean profit weight across all 2,256 ordered pairs — replicates paper Figure 1
+    df = pd.read_csv(data_dir / 'kappa_48firms_mean_by_quarter.csv')
 
     fig, ax = plt.subplots(figsize=(12, 5.5))
     smoothed = uniform_filter1d(df['kappa_all'].values, size=5)
@@ -44,14 +44,15 @@ def fig1_kappa_over_time():
     ax.set_xlabel('Year')
     ax.set_ylabel(r'Mean profit weight $\bar{\kappa}$')
     ax.set_title(
-        'Common Ownership Profit Weights: 9 S&P 500 Firms, 2013Q3–2025Q4\n'
+        'Common Ownership Profit Weights: 48 S&P 500 Firms, 2013Q3–2025Q4\n'
         'Replication of Backus, Conlon & Sinkinson (2019) Figure 1', fontsize=11.5)
     ax.legend(loc='lower right', fontsize=9.5)
     ax.set_xticks(range(2014, 2027, 2))
 
-    note = ('Notes: AAPL, MSFT (Tech) | AAL, DAL (Airlines) | JPM, BAC (Banks) | '
-            'PFE, MRK (Pharma) | NVDA (Semiconductors). '
-            'Three data quality corrections applied. Data: QUANTkiosk 13(F); SEC EDGAR XBRL.')
+    note = ('Notes: 48 firms across 10+ industries (tech, airlines, banks, pharma, '
+            'energy, retail, insurance, utilities, semiconductors, and more) — see '
+            'src/config.py for the full list. Nine data quality corrections applied. '
+            'Data: QUANTkiosk 13(F); SEC EDGAR XBRL.')
     fig.text(0.5, 0.01, note, ha='center', fontsize=8, color='#444',
              bbox=dict(boxstyle='round,pad=0.4', facecolor='#f9f9f9',
                        edgecolor='#ccc', alpha=0.85))
@@ -62,7 +63,7 @@ def fig1_kappa_over_time():
 
 def fig2_within_vs_cross_industry():
     # Within-industry vs cross-industry kappa — replicates paper Figure 11
-    df = pd.read_csv(data_dir / 'kappa_9firms_corrected.csv')
+    df = pd.read_csv(data_dir / 'kappa_48firms_corrected.csv')
 
     within = df[df.same_sic].groupby('time')['kappa'].mean()
     cross  = df[~df.same_sic].groupby('time')['kappa'].mean()
@@ -86,8 +87,8 @@ def fig2_within_vs_cross_industry():
 def fig3_blackrock_consolidation():
     # Two-panel: BlackRock CIK count per year + effect on AAPL beta
     cmap     = pd.read_csv(data_dir / 'entity_consolidation_map.csv', dtype={'cik': str})
-    holdings = pd.read_csv(data_dir / 'holdings_9firms.csv', dtype={'filer_cik': str})
-    shares   = pd.read_csv(data_dir / 'shares_outstanding_9firms_fixed.csv')
+    holdings = pd.read_csv(data_dir / 'holdings_48firms.csv', dtype={'filer_cik': str})
+    shares   = pd.read_csv(data_dir / 'shares_outstanding_48firms.csv')
 
     holdings['filer_cik'] = holdings['filer_cik'].str.replace(r'\.0$', '', regex=True).str.strip()
     br_ciks  = cmap[cmap.parent_id == 'BLACKROCK']['cik'].tolist()
@@ -139,8 +140,8 @@ def fig3_blackrock_consolidation():
 
 def fig4_contamination():
     # Institutional holdings exceeding 100% of shares outstanding (NVDA, AAL)
-    holdings = pd.read_csv(data_dir / 'holdings_9firms.csv', dtype={'filer_cik': str})
-    shares   = pd.read_csv(data_dir / 'shares_outstanding_9firms_fixed.csv')
+    holdings = pd.read_csv(data_dir / 'holdings_48firms.csv', dtype={'filer_cik': str})
+    shares   = pd.read_csv(data_dir / 'shares_outstanding_48firms.csv')
 
     inst = (holdings.groupby(['ticker', 'year', 'quarter'])['shares_held']
                     .sum().reset_index()

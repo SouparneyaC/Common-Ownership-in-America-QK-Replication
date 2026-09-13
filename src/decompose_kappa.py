@@ -6,8 +6,13 @@
 # The numerator is additive over investors, so we partition each s into a type
 # and compute each type's share of κ.
 #
+# NOTE: this is the earlier, 5-group version (Big Three combined into one
+# bucket, symmetric unordered-pair κ). See decompose_kappa_big3.py for the
+# current 48-firm, 7-group version (Vanguard/BlackRock/State Street split)
+# that the README's Key Findings and docs/methodology.md report.
+#
 # Run: HOLDINGS_CSV=/path/to/holdings.csv python src/decompose_kappa.py
-# Defaults to data/processed/holdings_9firms.csv if env var not set.
+# Defaults to data/processed/holdings_48firms.csv if env var not set.
 
 import os
 import numpy as np
@@ -20,8 +25,8 @@ DATA_DIR  = Path(__file__).parent.parent / "data" / "processed"
 PLOTS_DIR = Path(__file__).parent.parent / "plots"
 os.makedirs(PLOTS_DIR, exist_ok=True)
 
-HOLDINGS_CSV = os.environ.get("HOLDINGS_CSV", DATA_DIR / "holdings_9firms.csv")
-SHARES_CSV   = DATA_DIR / "shares_outstanding_9firms_fixed.csv"
+HOLDINGS_CSV = os.environ.get("HOLDINGS_CSV", DATA_DIR / "holdings_48firms.csv")
+SHARES_CSV   = DATA_DIR / "shares_outstanding_48firms.csv"
 CMAP_CSV     = DATA_DIR / "entity_consolidation_map.csv"
 CONTAM_CSV   = DATA_DIR / "contaminated_quarters.csv"
 OUT_CSV      = DATA_DIR / "kappa_decomposition.csv"

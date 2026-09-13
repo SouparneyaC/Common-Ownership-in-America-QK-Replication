@@ -10,11 +10,17 @@ Open `src/config.py` and add a row to the `FIRMS` list:
 
 ```python
 FIRMS = [
-    # existing entries ...
-    ("GS",  "886982",  6211, "Banks"),   # Goldman Sachs
-    ("UAL", "100517",  4512, "Airlines"), # United Airlines
+    # existing 48 entries ...
+    ("HD",  "354950", 5211, "Retail"),      # Home Depot
+    ("CAT", "18230",  3531, "Industrials"), # Caterpillar
 ]
 ```
+
+Note: United Airlines (UAL) is a known problem case — its issuer-perspective
+CIK mapping returns empty data from the QUANTkiosk API, likely due to its
+complex corporate history (UAL Corp → United Continental Holdings (2010) →
+United Airlines Holdings (2019)). American Airlines (AAL, already in the
+48-firm universe) was substituted for the airline pair for this reason.
 
 Then re-run the pipeline:
 
@@ -42,14 +48,19 @@ END_YEAR, END_Q = 2026, 1   # or whatever the new endpoint is
 
 ## Scaling to the Full S&P 500
 
-The 9-firm universe is a proof of concept. Scaling to the full ~500-firm index
-requires addressing two things:
+The current 48-firm universe (grown from an original 9-firm proof of concept
+via three further pulls — see `docs/methodology.md`) is itself a partial
+sample of the full ~500-firm index. Scaling further requires addressing two
+things:
 
 **1. API budget.** At ~20 credits per call and 500 firms × 50 quarters, the full
 pull requires ~500,000 credits — about 50 days at the standard 10,000/day quota.
-The pull script is already designed to run over multiple days and resume cleanly.
-The practical path is either (a) a rate-limited daily run, or (b) requesting a
-higher quota from QUANTkiosk directly.
+The 48-firm universe itself took ~9,600 calls (~192,000 credits, spread across
+several pulls including a nightly-job phase for the last 20 firms). The pull
+script is already designed to run over multiple days and resume cleanly.
+The practical path is either (a) a rate-limited daily run — exactly how the
+last 20 firms were added — or (b) requesting a higher quota from QUANTkiosk
+directly.
 
 **2. Historical S&P 500 membership.** The current universe uses the current QK500
 list. For a proper replication, each quarter should use the S&P 500 composition

@@ -7,8 +7,8 @@ from config import FIRMS, all_quarters, data_dir
 
 CALL_INTERVAL = 0.35
 
-holdings_csv   = data_dir / 'holdings_9firms.csv'
-checkpoint_csv = data_dir / 'completed_9firms.csv'
+holdings_csv   = data_dir / 'holdings_48firms.csv'
+checkpoint_csv = data_dir / 'completed_48firms.csv'
 
 holdings_cols   = ['ticker', 'cik', 'filer_cik', 'filer_name',
                    'shares_held', 'year', 'quarter', 'pulled_at']

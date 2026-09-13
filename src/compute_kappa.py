@@ -5,9 +5,9 @@ from config import TICKERS, SIC, data_dir
 
 
 def load_data():
-    h = pd.read_csv(data_dir / 'holdings_9firms.csv', dtype={'filer_cik': str})
+    h = pd.read_csv(data_dir / 'holdings_48firms.csv', dtype={'filer_cik': str})
     h['filer_cik'] = h['filer_cik'].str.replace(r'\.0$', '', regex=True).str.strip()
-    shares = pd.read_csv(data_dir / 'shares_outstanding_9firms_fixed.csv')
+    shares = pd.read_csv(data_dir / 'shares_outstanding_48firms.csv')
     cmap   = pd.read_csv(data_dir / 'entity_consolidation_map.csv', dtype={'cik': str})
     contam = pd.read_csv(data_dir / 'contaminated_quarters.csv')
     return h, shares, cmap, contam
@@ -86,12 +86,12 @@ def main():
             })
 
     df_kappa = pd.DataFrame(records)
-    df_kappa.to_csv(data_dir / 'kappa_9firms_corrected.csv', index=False)
+    df_kappa.to_csv(data_dir / 'kappa_48firms_corrected.csv', index=False)
 
     mean_q = (df_kappa.groupby(['year', 'quarter', 'time'])['kappa']
                       .mean().reset_index()
                       .rename(columns={'kappa': 'kappa_all'}))
-    mean_q.to_csv(data_dir / 'kappa_mean_by_quarter.csv', index=False)
+    mean_q.to_csv(data_dir / 'kappa_48firms_mean_by_quarter.csv', index=False)
 
     print(f'{len(df_kappa):,} pair-quarter observations')
     print(f'{len(mean_q)} quarterly means')
